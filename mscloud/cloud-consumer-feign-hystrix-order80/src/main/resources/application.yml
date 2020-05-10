@@ -1,0 +1,39 @@
+server:
+  port: 80
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://eureka1.com:7001/eureka/
+
+feign:
+  hystrix:
+    enabled: true
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 5000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ConnectTimeout: 5000
+
+
+# 配置熔断策略：
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        forceOpen: false # 强制打开熔断器 默认false关闭的
+        errorThresholdPercentage: 50 # 触发熔断错误比例阈值，默认值50%
+        sleepWindowInMilliseconds: 5000  # 熔断后休眠时长，默认值5秒
+        requestVolumeThreshold: 5  # 熔断触发最小请求次数，默认值是20
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000  # 熔断超时设置，默认为1秒
+
+#暴露全部监控信息,可以只填写hystrix.stream，也可以暴露全部 * ，注意在yml文件中特殊符号需要加引号
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
