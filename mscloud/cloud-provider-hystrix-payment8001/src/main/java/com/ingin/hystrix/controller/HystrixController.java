@@ -33,10 +33,17 @@ public class HystrixController {
     }
 
     public String timeOutHandler(){
-        return "这是熔断方法";
+        return "这是熔断方法" + Thread.currentThread().getName();
     }
 
     public String defaultHandler() {
-        return "这是全局默认熔断方法";
+        return "这是全局默认熔断方法" + Thread.currentThread().getName();
+    }
+
+    @GetMapping("/payment/default")
+    @HystrixCommand
+    public String getDefault() {
+        int i = 1/0;
+        return "ok";
     }
 }
