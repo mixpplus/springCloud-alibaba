@@ -1,0 +1,32 @@
+server:
+  port: 2002
+
+spring:
+  application:
+    name: seata-user-service
+  cloud:
+    alibaba:
+      seata:
+        #自定义事务组名称需要与seata-server中的对应
+        tx-service-group: ingin_tx_group
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 26b81e11-534f-48f0-973e-c7b4460b6e00
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/seata_user2
+    username: root
+    password: root
+
+feign:
+  hystrix:
+    enabled: false
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml

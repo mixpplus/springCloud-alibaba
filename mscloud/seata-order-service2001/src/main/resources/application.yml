@@ -1,0 +1,50 @@
+server:
+  port: 2001
+
+spring:
+  application:
+    name: seata-order-service
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8858 #配置Sentinel dashboard地址
+        port: 8719  # Sentinel api port
+    alibaba:
+      seata:
+        #自定义事务组名称
+        tx-service-group: ingin_tx_group
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 26b81e11-534f-48f0-973e-c7b4460b6e00
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/seata_user1
+    username: root
+    password: root
+
+feign:
+  sentinel:
+    enabled: true
+
+# 配置熔断策略：
+#hystrix:
+#  command:
+#    default:
+#      circuitBreaker:
+#        forceOpen: false # 强制打开熔断器 默认false关闭的
+#        errorThresholdPercentage: 50 # 触发熔断错误比例阈值，默认值50%
+#        sleepWindowInMilliseconds: 5000  # 熔断后休眠时长，默认值5秒
+#        requestVolumeThreshold: 5  # 熔断触发最小请求次数，默认值是20
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 1000  # 熔断超时设置，默认为1秒
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
